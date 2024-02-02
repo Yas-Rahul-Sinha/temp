@@ -1,0 +1,165 @@
+Simple Queries:
+What is the Update reason for dwh batch id 8?
+SELECT POC_DWH_UPDATED_REASON FROM poc_om_currency_dim WHERE POC_DWH_BATCH_ID = 8
+
+Queries with 1 JOIN:
+What is the country name for account sk '67662'?
+SQL Query: SELECT poc_country_name FROM poc_om_currency_dim JOIN poc_om_exec_fact ON poc_om_currency_dim.POC_CURRENCY_SK = poc_om_exec_fact.POC_CURRENCY_SK WHERE poc_om_exec_fact.POC_ACCOUNT_SK = 67662
+
+Queries with 2 JOINs:
+What is the currency used by Allocation Id ALLO2?
+SELECT POC_CURRENCY_CODE FROM poc_om_currency_dim JOIN poc_om_exec_fact ON poc_om_currency_dim.POC_CURRENCY_SK = poc_om_exec_fact.POC_SETTL_CURRENCY_SK JOIN poc_om_trade_full_linkage ON poc_om_exec_fact.POC_EXECUTION_SK = poc_om_trade_full_linkage.POC_EXECUTION_SK WHERE POC_ALLOCATION_ID = 'ALLO2'
+
+Action Points:
+1) Add names column to om_exec_fact table
+2) Convert all the datetime data from string to datetime
+3) API 
+
+
+#########TEST QUERIESN###############################################################
+1)what is the allocation_id and POC_execution_sk whose country_code is country11?
+
+SQL Query: SELECT POC_ALLOCATION_ID, POC_EXECUTION_SK FROM poc_om_trade_full_linkage JOIN poc_om_exec_fact ON poc_om_trade_full_linkage.POC_EXECUTION_SK = poc_om_exec_fact.POC_EXECUTION_SK JOIN poc_om_currency_dim ON poc_om_exec_fact.POC_CURRENCY_SK = poc_om_currency_dim.POC_CURRENCY_SK WHERE poc_om_trade_full_linkage.POC_COUNTRY_CODE = 'country11
+
+Query Result:'ALLO11', '71546'
+
+
+2)what is the POC_exec_sk whose poc_Account_party_sk is 24870 and 12407 ?
+
+SQL Query: SELECT POC_EXEC_SK FROM poc_om_exec_fact WHERE POC_ACCOUNT_PARTY_SK IN (24870, 12407)
+
+Query Result:'28768'
+
+
+3)list the name of POC_country_name whose POC_active_flag is 'Y'?
+
+SQL Query: SELECT POC_COUNTRY_NAME FROM poc_om_currency_dim WHERE POC_ACTIVE_FLAG = 'Y'
+
+Query Result:	POC_COUNTRY_NAME
+	Australia
+	United Kingdom
+	United States
+	Japan
+	China
+	France
+	France
+	France
+	Australia
+	Germany
+	Germany
+	India
+	Japan
+	Brazil
+	Australia
+	Brazil
+	France
+	Australia
+	China
+	China
+	Japan
+	Brazil
+	United States
+	Brazil
+	India
+	Canada
+	Germany
+	United States
+	India
+	China
+	China
+	United Kingdom
+
+4)List the POC_CURRENCY_NAME whose POC_DWH_UPDATED_REASOn is Data validation?
+
+SQL Query: SELECT POC_CURRENCY_NAME FROM poc_om_currency_dim WHERE POC_DWH_UPDATED_REASON = 'Data validation'
+
+Query Response: Chinese Yuan
+Australian Dollar
+Brazilian Real
+Australian Dollar
+Australian Dollar
+Canadian Dollar
+Canadian Dollar
+Brazilian Real
+Euro
+Australian Dollar
+Australian Dollar
+US Dollar
+Indian Rupee
+Chinese Yuan
+Canadian Dollar
+Chinese Yuan
+Brazilian Real
+Australian Dollar
+Chinese Yuan
+US Dollar
+US Dollar
+
+5)what are the POC_currency_name whose POC_currency_class is Major?
+
+SQL Query:SELECT POC_CURRENCY_NAME FROM poc_om_currency_dim WHERE POC_CURRENCY_CLASS = 'Major'
+
+Query Response: British Pound
+Chinese Yuan
+Australian Dollar
+Australian Dollar
+Euro
+Japanese Yen
+Australian Dollar
+Canadian Dollar
+US Dollar
+US Dollar
+Brazilian Real
+British Pound
+US Dollar
+Brazilian Real
+Brazilian Real
+Chinese Yuan
+Euro
+Australian Dollar
+Chinese Yuan
+US Dollar
+Brazilian Real
+US Dollar
+British Pound
+Indian Rupee
+
+6) what is POC_BLOCK_SOURCE_SYSTEM_ID whose POC_DM_PROCESS_DATE is 12 and 24?
+
+SQL Query: SELECT POC_BLOCK_SOURCE_SYSTEM_ID FROM poc_om_trade_full_linkage WHERE POC_DM_PROCESS_DATE IN (12, 24)
+
+Query Response: SYS1
+SYS4
+SYS8
+SYS18
+SYS26
+SYS32
+
+
+1. Who’s not a 'Major' of POC_CONTINENT is 'South America' give the POC_BLOCK_ID,POC_COUNTRY_CODE,POC_DWH_BUSINESS_DATE
+
+2. Give POC_ALLOCATION_ID,POC_DWH_BATCH_ID where POC_CURRENCY_SK not in (114288,130760,157737) and POC_G10_CURRENCY_FLAG is 'N'
+
+3. Return POC_CURRENCY_CODE where POC_CURRENCY_NAME like 'Dollar' and POC_DWH_UPDATED_BY is odd user
+
+4.how to get POC_DWH_BUSINESS_DATE,POC_CURRENCY_SK from same month records of POC_EFFECTIVE_FROM_DATE,POC_EFFECTIVE_TO_DATE?
+
+5. which user did more updates and return the reason of updates? Give POC_DWH_UPDATED_BY and POC_DWH_UPDATED_REASON of updates?
+
+1.Give POC_Allocation_id,POC_Country_code,POC_country_sk,POC_Country_name of POC_Allocation_id ALLO16,ALLO17
+
+2.give POC_currency_sk and relevant poc_block_id which poc_dwh_batch_id is 2 and poc_dwh_updated_reason is Data correction and poc_active_flag should be Active
+
+3. Give me POC_ALLOCATION_ID,POC_BLOCK_ID which POC_effective_to_date is FEB-2022 and poc_dwh_updated_reason is Data correction
+
+4.what is the list of POC_ORDER_ID_SK of  POC_ALLOCATION_ID is ALLO1 to ALLO5?
+
+5. what is the POC_LAST_ACTIVITY_USER_ID_SK,POC_UPFRONT_PAYMENT_CURRENCY_SK of POC_counter_party_gp_number GP25,GP27?
+
+6.Odd number OF POC_COUNTER_PARTY_GP_NUMBER?
+
+7.Even number of POC_COUNTER_PARTY_GP_NUMBER?
+
+8.what is the POC_CURRENCY_CLASS is major list of POC_ALLOCATION_ID  ?
+
+9. Give list of POC_LAST_ACTIVITY_USER_ID_SK which  POC_DWH_UPDATED_BY is not User2 and POC_ACTIVE_FLAG is Active?
